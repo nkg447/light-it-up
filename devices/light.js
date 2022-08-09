@@ -1,6 +1,14 @@
 const BaseDevice = require('./baseDevice');
 
 class Light extends BaseDevice {
+  constructor(options) {
+    super(options);
+    this.hue=0;
+    this.saturation=0;
+    this.brightness=0;
+    this.temperature=0;
+  }
+
   /* Brightness */
   async supportsBrightness(){
     return await this.supportsFeature('brightness');
@@ -17,12 +25,16 @@ class Light extends BaseDevice {
     });
   }
 
-  async setColor(value) {
+  async setColor(hue, saturation, brightness) {
+    hue = hue === null ? this.hue : hue;
+    saturation = saturation === null ? this.saturation : saturation;
+    brightness = brightness === null ? this.brightness : brightness;
+    
     return await this._api.setState({
       devId: this._deviceId,
       command: "colorSet",
       payload: {
-        color: {...value
+        color: {hue, saturation, brightness
         }
       }
     });

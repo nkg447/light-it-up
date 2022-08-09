@@ -1,42 +1,42 @@
 /**
-* Example script using cloudtuya to connect, get states an change them
-*/
+ * Example script using cloudtuya to connect, get states an change them
+ */
 
-const debug = require('debug')('cloudtuya');
-const fs = require('fs');
-const CloudTuya = require('./cloudtuya');
-const Light = require('./devices/light');
+const debug = require("debug")("cloudtuya");
+const fs = require("fs");
+const CloudTuya = require("./cloudtuya");
+const Light = require("./devices/light");
 
-const name = 'cloudtuya';
+const name = "cloudtuya";
 
-debug('booting %s', name);
+debug("booting %s", name);
 // Load local files
 let apiKeys = {};
 let deviceData = {};
 try {
-  apiKeys = require('./keys.json');
-} catch(err) {
-  console.error('keys.json is missing.');
+  apiKeys = require("./keys.json");
+} catch (err) {
+  console.error("keys.json is missing.");
 }
 try {
-  deviceData = require('./devices.json');
-} catch(err) {
-  console.warn('devices.json is missing. creating temporary');
-  deviceData = [{ id: '10000000000', name: 'temp' }];
+  deviceData = require("./devices.json");
+} catch (err) {
+  console.warn("devices.json is missing. creating temporary");
+  deviceData = [{ id: "10000000000", name: "temp" }];
 }
 /**
-* Save Data Such a Devices to file
-* @param {Object} data to save
-* @param {String} [file="./devices.json"] to save to
-*/
-function saveDataToFile(data, file = './devices.json') {
+ * Save Data Such a Devices to file
+ * @param {Object} data to save
+ * @param {String} [file="./devices.json"] to save to
+ */
+function saveDataToFile(data, file = "./devices.json") {
   debug(`Data ${JSON.stringify(data)}`);
   fs.writeFile(file, JSON.stringify(data), (err) => {
-    if(err) {
+    if (err) {
       return debug(err);
     }
     debug(`The file ${file} was saved!`);
-    return (file);
+    return file;
   });
 }
 
@@ -70,15 +70,11 @@ async function getState(devId) {
   console.log(state);
 }
 
-function test(myLight) {
-  let hue = Math.floor(Math.random() * 360)
-  let saturation = Math.random()
-  let brightness = Math.floor(Math.random() * 100)
-  myLight.setColor({
-    hue: hue,
-    saturation: saturation,
-    brightness: brightness
-  });
+function randomLights(myLight) {
+  let hue = Math.floor(Math.random() * 360);
+  let saturation = Math.random();
+  let brightness = Math.floor(Math.random() * 100);
+  myLight.setColor(hue, saturation, brightness);
 }
 
 async function lightControl(deviceId) {
@@ -87,20 +83,7 @@ async function lightControl(deviceId) {
 
   myLight.turnOn();
   myLight.setBrightness(100);
-  // myLight.setColor({
-  //   hue: Math.floor(Math.random() * 360),
-  //   saturation: Math.random(),
-  //   brightness: Math.floor(Math.random() * 100)
-  // });
-
-  
-  setInterval(()=>test(myLight), 5000);
-
-  // var brightness = await myLight.getBrightness();
-  // var isOn = (JSON.stringify(await myLight.isOn()));
-
-  // console.log(`lamp on: ${isOn}`);
-  // console.log(`brightness is set to ${brightness}`);
+  setInterval(() => randomLights(myLight), 5000);
 }
 
 async function loginAndFindDevices() {
