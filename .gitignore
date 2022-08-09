@@ -1,6 +1,7 @@
 # Login email and pass . API
 .credentials.json
 keys.json
+api.json
 
 #Devices - Details of devices
 devices.json

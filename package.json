@@ -28,7 +28,9 @@
   },
   "homepage": "https://github.com/unparagoned/cloudtuya#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "debug": "^4.1.1",
+    "express": "^4.18.1",
     "request": "^2.88.0"
   },
   "devDependencies": {

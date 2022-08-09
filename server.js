@@ -7,7 +7,18 @@ const fs = require("fs");
 const CloudTuya = require("./cloudtuya");
 const Light = require("./devices/light");
 
+const express = require("express");
+const http = require("http");
+const port = process.env.PORT || 4001;
+const app = express();
+app.use(express.json());
+const cors = require("cors");
+app.use(cors({ credentials: true }));
+const server = http.createServer(app);
+
+
 const name = "cloudtuya";
+let myLight;
 
 debug("booting %s", name);
 // Load local files
@@ -79,11 +90,11 @@ function randomLights(myLight) {
 
 async function lightControl(deviceId) {
   // Example how to turn on a lamp and set brightness
-  var myLight = new Light({ api, deviceId });
+  myLight = new Light({ api, deviceId });
 
   myLight.turnOn();
   myLight.setBrightness(100);
-  setInterval(() => randomLights(myLight), 5000);
+  // setInterval(() => randomLights(myLight), 5000);
 }
 
 async function loginAndFindDevices() {
@@ -137,3 +148,11 @@ async function main() {
 }
 
 main();
+
+app.get("/color", function (req, resp) {
+  const hue = req.query.hue;
+  myLight.setColor(hue, 0.5, 100);
+  resp.send('ok');
+});
+
+server.listen(port, () => console.log(`Listening on port ${port}`));
