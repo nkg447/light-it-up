@@ -47,7 +47,7 @@ class CloudTuya {
 
     // Specific endpoint where no key/secret required
 
-    const knownRegions = ['az', 'eu', 'ay', 'us'];
+    const knownRegions = ['az', 'eu', 'ay', 'us', 'in'];
     config.region = (config.region && knownRegions.indexOf(config.region.toLowerCase()) !== -1)
       ? config.region.toLowerCase()
       : 'eu';
@@ -60,6 +60,7 @@ class CloudTuya {
    */
   async post(options) {
     // Set to empty object if undefined
+    console.log(JSON.stringify(options.json.payload, null, 2));
     if(this.tokens && this.tokens.expires_in < 0) this.getToken();
     const config = (options) || {};
     config.method = 'POST';

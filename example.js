@@ -49,8 +49,6 @@ const api = new CloudTuya({
   region: apiKeys.region,
 });
 
-
-
 async function findDevices() {
   // Get all devices registered on the Tuya app
   let devices = await api.find();
@@ -62,7 +60,6 @@ async function findDevices() {
   return devices;
 }
 
-
 async function getState(devId) {
   // Get state of a single device
   const deviceStates = await api.state({
@@ -73,38 +70,76 @@ async function getState(devId) {
   console.log(state);
 }
 
+function test(myLight) {
+  let hue = Math.floor(Math.random() * 360)
+  let saturation = Math.random()
+  let brightness = Math.floor(Math.random() * 100)
+  myLight.setColor({
+    hue: hue,
+    saturation: saturation,
+    brightness: brightness
+  });
+}
+
 async function lightControl(deviceId) {
   // Example how to turn on a lamp and set brightness
   var myLight = new Light({ api, deviceId });
 
   myLight.turnOn();
-  myLight.setBrightness(80);
+  myLight.setBrightness(100);
+  // myLight.setColor({
+  //   hue: Math.floor(Math.random() * 360),
+  //   saturation: Math.random(),
+  //   brightness: Math.floor(Math.random() * 100)
+  // });
 
-  var brightness = await myLight.getBrightness();
-  var isOn = (JSON.stringify(await myLight.isOn()));
+  
+  setInterval(()=>test(myLight), 5000);
 
-  console.log(`lamp on: ${isOn}`);
-  console.log(`brightness is set to ${brightness}`);
+  // var brightness = await myLight.getBrightness();
+  // var isOn = (JSON.stringify(await myLight.isOn()));
 
+  // console.log(`lamp on: ${isOn}`);
+  // console.log(`brightness is set to ${brightness}`);
 }
 
-
-async function main() {
-
-
-  // Test device read from devices.json saved at the end.
-
-  debug(`device data ${JSON.stringify(deviceData)}`);
-
+async function loginAndFindDevices() {
+  try {
+    const temp = require("./api.json");
+    Object.keys(temp).forEach((e) => {
+      api[e] = temp[e];
+    });
+    return;
+  } catch (err) {
+    console.error("api.json is missing.");
+  }
   // Connect to cloud api and get access token.
   const tokens = await api.login();
-  debug(`Token ${JSON.stringify(tokens)}`);
-
+  console.log(`Token ${JSON.stringify(tokens)}`);
 
   /**
    * Initial find and save devices
    * */
   deviceData = await findDevices();
+  deviceData.map(
+    async (d) =>
+      await api.find({
+        devId: d.id,
+      })
+  );
+
+  /**
+   * Serialize API Data
+   * */
+  saveDataToFile(api, "./api.json");
+}
+
+async function main() {
+  // Test device read from devices.json saved at the end.
+
+  debug(`device data ${JSON.stringify(deviceData)}`);
+
+  await loginAndFindDevices();
 
   /**
    * Get state
@@ -119,4 +154,3 @@ async function main() {
 }
 
 main();
-

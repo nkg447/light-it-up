@@ -17,6 +17,25 @@ class Light extends BaseDevice {
     });
   }
 
+  async setColor(value) {
+    return await this._api.setState({
+      devId: this._deviceId,
+      command: "colorSet",
+      payload: {
+        color: {...value
+        }
+      }
+    });
+  }
+
+  // async setTemperature(value) {
+  //   return await this._api.setState({
+  //     devId: this._deviceId,
+  //     command: 'temperatureSet',
+  //     setState: value,
+  //   });
+  // }
+
 
   /* Color*/
   async supportsColor(){

@@ -1,0 +1,49 @@
+{
+  "devices": [
+    {
+      "data": {
+        "brightness": "890",
+        "color_mode": "colour",
+        "online": true,
+        "state": "true",
+        "color_temp": 1000
+      },
+      "name": "room light",
+      "icon": "https://images.tuyain.com/smart/solution/143006/37e69c2be34b7642_cover.png",
+      "id": "d76ab2154c2670dc738kng",
+      "dev_type": "light",
+      "ha_type": "light"
+    }
+  ],
+  "core": {
+    "userName": "nikunj.gupta447@gmail.com",
+    "password": "Google@123",
+    "countryCode": "91",
+    "bizType": "smart_life",
+    "from": "tuya"
+  },
+  "uri": "https://px1.tuyaeu.com/homeassistant",
+  "tokens": {
+    "access_token": "INhin1659761832439JENSxz7uIoLAzhS",
+    "refresh_token": "INhin1659761832439JENSxRXYamyIg7X",
+    "token_type": "bearer",
+    "expires_in": 864000
+  },
+  "accessToken": "INhin1659761832439JENSxz7uIoLAzhS",
+  "currentDevices": [
+    {
+      "data": {
+        "brightness": "890",
+        "color_mode": "colour",
+        "online": true,
+        "state": "true",
+        "color_temp": 1000
+      },
+      "name": "room light",
+      "icon": "https://images.tuyain.com/smart/solution/143006/37e69c2be34b7642_cover.png",
+      "id": "d76ab2154c2670dc738kng",
+      "dev_type": "light",
+      "ha_type": "light"
+    }
+  ]
+}
